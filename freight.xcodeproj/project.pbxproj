@@ -49,6 +49,7 @@
 		9C24ECBE1B1A26B700C74B32 /* ChartScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ChartScene.m; path = freight/Chart/ChartScene.m; sourceTree = SOURCE_ROOT; };
 		9CB6AE3A1B1A32500063ED5E /* ChartNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChartNode.h; sourceTree = "<group>"; };
 		9CB6AE3B1B1A32500063ED5E /* ChartNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChartNode.m; sourceTree = "<group>"; };
+		9CB6AE3E1B1A7C0A0063ED5E /* Estimator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Estimator.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +93,7 @@
 		9C24EC631B1A1C9600C74B32 /* freight */ = {
 			isa = PBXGroup;
 			children = (
+				9CB6AE3D1B1A7B9A0063ED5E /* Estimators */,
 				9CB6AE391B1A321B0063ED5E /* Chart */,
 				9C24EC661B1A1C9600C74B32 /* AppDelegate.h */,
 				9C24EC671B1A1C9600C74B32 /* AppDelegate.m */,
@@ -141,6 +143,15 @@
 				9CB6AE3B1B1A32500063ED5E /* ChartNode.m */,
 			);
 			path = Chart;
+			sourceTree = "<group>";
+		};
+		9CB6AE3D1B1A7B9A0063ED5E /* Estimators */ = {
+			isa = PBXGroup;
+			children = (
+				9CB6AE3E1B1A7C0A0063ED5E /* Estimator.h */,
+			);
+			name = Estimators;
+			path = Estimator;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

@@ -8,8 +8,11 @@
 
 #import <Cocoa/Cocoa.h>
 
+#import "Estimator.h"
+
 @interface ViewController : NSViewController
 
+@property id<Estimator> estimator;
 
 @end
 
