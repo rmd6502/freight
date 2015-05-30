@@ -88,10 +88,10 @@
             mapMinY = yPos;
         }
     }
-    self.mapMaxXField.doubleValue = mapMaxX;
-    self.mapMinXField.doubleValue = mapMinX;
-    self.mapMaxYField.doubleValue = mapMaxY;
-    self.mapMinYField.doubleValue = mapMinY;
+    self.mapMaxXField.doubleValue = mapMaxX + 5;
+    self.mapMinXField.doubleValue = mapMinX - 5;
+    self.mapMaxYField.doubleValue = mapMaxY + 5;
+    self.mapMinYField.doubleValue = mapMinY - 5;
 }
 
 #pragma mark - Actions
@@ -137,7 +137,9 @@
         [scene addChild:newNode];
         newNode.position = CGPointMake((xPos - mapMinX) * scene.size.width / mapWidth, (yPos - mapMinY) * scene.size.height / mapHeight);
 //        NSLog(@"adding node from %.0f,%.0f to %@", xPos, yPos, NSStringFromPoint(newNode.position));
-        [newNode runAction:[SKAction sequence:@[[SKAction scaleBy:1.5 duration:0.125],[SKAction scaleBy:1.0 duration:0.125],[SKAction fadeOutWithDuration:1.5]]]];
+        [newNode runAction:[SKAction sequence:@[[SKAction scaleBy:1.5 duration:0.125],[SKAction scaleBy:(2.0/3.0) duration:0.125],[SKAction fadeOutWithDuration:1.5]]] completion:^{
+            [scene removeChildrenInArray:@[newNode]];
+        }];
     }
 }
 
