@@ -67,7 +67,7 @@
         return NO;
     }
 
-    // readonly shallow copy
+    // readonly shallow copy sorted by time
     self.readings = [observeData[@"reports"] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
         NSDictionary *d1 = (NSDictionary *)obj1;
         NSDictionary *d2 = (NSDictionary *)obj2;

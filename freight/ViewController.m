@@ -25,6 +25,7 @@
 @property NSTimeInterval lastRunTime;
 @property (weak) IBOutlet NSTextField *simulationSpeedTextBox;
 @property (weak) IBOutlet NSSlider *simulationSpeedSlider;
+@property (weak) IBOutlet NSTextField *timeIndexTextField;
 
 @end
 
@@ -112,11 +113,11 @@
 
 - (IBAction)didChangeSimulationSpeed:(NSSlider *)sender
 {
-    self.chartScene.speed = sender.doubleValue;
+    self.chartScene.speed = fabs(sender.doubleValue);
     self.simulationSpeedTextBox.doubleValue = sender.doubleValue;
 }
 - (IBAction)didChangeSimulationSpeedValue:(NSTextField *)sender {
-    self.chartScene.speed = sender.doubleValue;
+    self.chartScene.speed = fabs(sender.doubleValue);
     self.simulationSpeedSlider.doubleValue = sender.doubleValue;
 }
 
@@ -127,8 +128,13 @@
     NSTimeInterval runTime = currentTime - self.lastRunTime;
     self.lastRunTime = currentTime;
     if (self.index > 0) {
-        self.timeIndex += runTime * self.chartScene.speed;
+        self.timeIndex += runTime * self.simulationSpeedSlider.doubleValue;
     }
+    double speed = self.simulationSpeedSlider.doubleValue;
+    if (speed == 0) {
+        return;
+    }
+    self.timeIndexTextField.stringValue = [NSString stringWithFormat:@"%.3f", self.timeIndex];
     NSArray *points = self.representedObject;
     CGFloat mapMinX = self.mapMinXField.doubleValue;
     CGFloat mapMinY = self.mapMinYField.doubleValue;
@@ -141,14 +147,22 @@
     while (self.index < points.count) {
         NSDictionary *observation = points[self.index];
         NSTimeInterval observationTime = [observation[@"timestamp"] doubleValue];
-        if (observationTime > self.timeIndex) {
-            if (self.index == 0) {
-                self.timeIndex = observationTime;
-            } else {
+        if (self.index == 0) {
+            self.timeIndex = observationTime;
+        }
+        if (speed > 0) {
+            if (observationTime > self.timeIndex) {
                 break;
+            } else {
+                ++self.index;
+            }
+        } else if (speed < 0) {
+            if (observationTime < self.timeIndex) {
+                break;
+            } else if (index > 0) {
+                --self.index;
             }
         }
-        ++self.index;
         CGFloat xPos = [observation[@"x"] doubleValue];
         CGFloat yPos = [observation[@"y"] doubleValue];
 
@@ -159,6 +173,9 @@
 //        NSLog(@"adding node from %.0f,%.0f to %@", xPos, yPos, NSStringFromPoint(newNode.position));
         [newNode runAction:[SKAction sequence:@[[SKAction scaleBy:1.5 duration:0.25],[SKAction scaleBy:(2.0/3.0) duration:0.25],[SKAction fadeOutWithDuration:1.5]]] completion:^{
             [scene removeChildrenInArray:@[newNode]];
+            if ((self.index == points.count || self.index == 0) && self.chartScene.children.count == 0) {
+                self.chartScene.paused = YES;
+            }
         }];
     }
 }
