@@ -10,6 +10,4 @@
 
 @interface ChartScene : SKScene
 
-- (void)addDataPoint:(CGPoint)point atTime:(NSTimeInterval)observed;
-
 @end

@@ -68,7 +68,15 @@
     }
 
     // readonly shallow copy
-    self.readings = [observeData[@"reports"] copy];
+    self.readings = [observeData[@"reports"] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        NSDictionary *d1 = (NSDictionary *)obj1;
+        NSDictionary *d2 = (NSDictionary *)obj2;
+        if (![d1 isKindOfClass:[NSDictionary class]] || ![d2 isKindOfClass:[NSDictionary class]]) {
+            return NSOrderedSame;
+        }
+        // nils will have a doublevalue of 0.  Other types may throw
+        return [d1[@"timestamp"] doubleValue] - [d2[@"timestamp"] doubleValue];
+    }];
     
     return YES;
 }

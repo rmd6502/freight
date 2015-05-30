@@ -26,16 +26,12 @@
     }
 }
 
+
 - (void)createSceneContents
 {
     // TODO: allow chooser
     self.backgroundColor = [SKColor whiteColor];
     self.scaleMode = SKSceneScaleModeAspectFit;
-}
-
-- (void)addDataPoint:(CGPoint)point atTime:(NSTimeInterval)observed
-{
-
 }
 
 @end
