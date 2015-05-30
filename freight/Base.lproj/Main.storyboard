@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="6172" systemVersion="14A261f" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6172"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7706"/>
     </dependencies>
     <scenes>
         <!--Application-->
@@ -641,15 +641,15 @@
                         <outlet property="delegate" destination="Voe-Tx-rLC" id="PrD-fu-P6m"/>
                     </connections>
                 </application>
-                <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModuleProvider=""/>
+                <customObject id="Voe-Tx-rLC" customClass="AppDelegate"/>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="75" y="0.0"/>
         </scene>
-        <!--Window Controller - Window-->
+        <!--Window Controller-->
         <scene sceneID="R2V-B0-nI4">
             <objects>
-                <windowController id="jGA-0Y-lOj" storyboardIdentifier="Document Window Controller" sceneMemberID="viewController">
+                <windowController storyboardIdentifier="Document Window Controller" id="jGA-0Y-lOj" sceneMemberID="viewController">
                     <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="Ckk-yw-fiv">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
@@ -667,25 +667,101 @@
         <!--View Controller-->
         <scene sceneID="hIz-AP-VOD">
             <objects>
-                <viewController id="5gI-5U-AMq" customClass="ViewController" customModuleProvider="" sceneMemberID="viewController">
+                <viewController id="5gI-5U-AMq" customClass="ViewController" sceneMemberID="viewController">
                     <view key="view" id="ERx-hH-rdd">
                         <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="TyV-c9-G0C">
-                                <rect key="frame" x="115" y="124" width="250" height="22"/>
-                                <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Your document contents here" id="Cc7-nU-5Mv">
-                                    <font key="font" metaFont="system" size="18"/>
-                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="R2h-1p-2Op" userLabel="Chart View" customClass="SKView">
+                                <rect key="frame" x="0.0" y="0.0" width="480" height="233"/>
+                            </customView>
+                            <button toolTip="Check to show Reticle" translatesAutoresizingMaskIntoConstraints="NO" id="R3X-BX-Ska">
+                                <rect key="frame" x="18" y="239" width="71" height="18"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="67" id="N8G-ik-nYV"/>
+                                </constraints>
+                                <buttonCell key="cell" type="check" title="Reticle" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="2cE-qJ-AH5">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="didSelectReticle:" target="5gI-5U-AMq" id="lfe-0p-mjt"/>
+                                </connections>
+                            </button>
+                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Hhe-yn-Rsy">
+                                <rect key="frame" x="277" y="238" width="45" height="22"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="JRG-Tc-99p">
+                                    <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="ezb-7Z-Iog"/>
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4Hx-d4-zkQ">
+                                <rect key="frame" x="342" y="238" width="45" height="22"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="oyb-KW-jZ6">
+                                    <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="xyf-Vm-Qbb"/>
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="rbc-lx-mc9">
+                                <rect key="frame" x="328" y="240" width="18" height="17"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="14" id="qD2-yY-bZh"/>
+                                </constraints>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="x" id="rGS-6n-i6e">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button toolTip="Check to automatically set the map size" translatesAutoresizingMaskIntoConstraints="NO" id="Vc8-EN-RY0">
+                                <rect key="frame" x="393" y="239" width="85" height="18"/>
+                                <buttonCell key="cell" type="check" title="Automatic" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="5EH-Pw-9up">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="didSelectAutomaticMapSize:" target="5gI-5U-AMq" id="FyT-KQ-UXe"/>
+                                </connections>
+                            </button>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="PXL-1l-Xtr">
+                                <rect key="frame" x="209" y="240" width="62" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Map Size" id="i1o-WP-2Mn">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
                         </subviews>
                         <constraints>
-                            <constraint firstAttribute="centerY" secondItem="TyV-c9-G0C" secondAttribute="centerY" id="Rxv-Yd-F43"/>
-                            <constraint firstAttribute="centerX" secondItem="TyV-c9-G0C" secondAttribute="centerX" id="Zn4-Y4-lbg"/>
+                            <constraint firstItem="rbc-lx-mc9" firstAttribute="leading" secondItem="Hhe-yn-Rsy" secondAttribute="trailing" constant="8" symbolic="YES" id="2UA-mW-w1s"/>
+                            <constraint firstAttribute="bottom" secondItem="R2h-1p-2Op" secondAttribute="bottom" id="5Ca-Z1-2Hc"/>
+                            <constraint firstAttribute="trailing" secondItem="R2h-1p-2Op" secondAttribute="trailing" id="7jl-KV-QxX"/>
+                            <constraint firstItem="R3X-BX-Ska" firstAttribute="baseline" secondItem="PXL-1l-Xtr" secondAttribute="baseline" id="Crq-cP-OKB"/>
+                            <constraint firstItem="Vc8-EN-RY0" firstAttribute="leading" secondItem="4Hx-d4-zkQ" secondAttribute="trailing" constant="8" symbolic="YES" id="FLR-oP-HFU"/>
+                            <constraint firstItem="Hhe-yn-Rsy" firstAttribute="baseline" secondItem="rbc-lx-mc9" secondAttribute="baseline" id="FOG-51-Ztq"/>
+                            <constraint firstItem="R2h-1p-2Op" firstAttribute="top" secondItem="R3X-BX-Ska" secondAttribute="bottom" constant="8" symbolic="YES" id="JkQ-n5-0PC"/>
+                            <constraint firstAttribute="trailing" secondItem="Vc8-EN-RY0" secondAttribute="trailing" constant="4" id="UJk-oX-IIe"/>
+                            <constraint firstItem="Vc8-EN-RY0" firstAttribute="leading" secondItem="rbc-lx-mc9" secondAttribute="trailing" constant="51" id="XbV-oU-F1n"/>
+                            <constraint firstItem="R3X-BX-Ska" firstAttribute="leading" secondItem="ERx-hH-rdd" secondAttribute="leading" constant="20" symbolic="YES" id="bsD-qd-o3B"/>
+                            <constraint firstItem="4Hx-d4-zkQ" firstAttribute="baseline" secondItem="rbc-lx-mc9" secondAttribute="baseline" id="cIG-ks-pCu"/>
+                            <constraint firstItem="Hhe-yn-Rsy" firstAttribute="top" secondItem="ERx-hH-rdd" secondAttribute="top" constant="10" id="cL9-yx-6s7"/>
+                            <constraint firstItem="Hhe-yn-Rsy" firstAttribute="baseline" secondItem="PXL-1l-Xtr" secondAttribute="baseline" id="lQh-KB-ZP3"/>
+                            <constraint firstItem="R2h-1p-2Op" firstAttribute="centerX" secondItem="PXL-1l-Xtr" secondAttribute="centerX" id="pG2-wc-5P2"/>
+                            <constraint firstItem="R2h-1p-2Op" firstAttribute="leading" secondItem="ERx-hH-rdd" secondAttribute="leading" id="pbU-SW-6bu"/>
+                            <constraint firstItem="4Hx-d4-zkQ" firstAttribute="baseline" secondItem="Vc8-EN-RY0" secondAttribute="baseline" id="rqH-tz-iDE"/>
+                            <constraint firstItem="Hhe-yn-Rsy" firstAttribute="leading" secondItem="PXL-1l-Xtr" secondAttribute="trailing" constant="8" symbolic="YES" id="thb-rM-Wik"/>
+                            <constraint firstItem="4Hx-d4-zkQ" firstAttribute="leading" secondItem="Hhe-yn-Rsy" secondAttribute="trailing" constant="20" id="xNR-xA-NSd"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="chartView" destination="R2h-1p-2Op" id="grc-6P-e9c"/>
+                        <outlet property="mapHeightField" destination="4Hx-d4-zkQ" id="0YA-iA-peh"/>
+                        <outlet property="mapWidthField" destination="Hhe-yn-Rsy" id="y8v-xA-JJL"/>
+                    </connections>
                 </viewController>
                 <customObject id="2Tp-Fl-jBw" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>

@@ -1,16 +1,13 @@
 //
-//  Document.h
+//  ChartNode.h
 //  freight
 //
 //  Created by Robert Diamond on 5/30/15.
 //  Copyright (c) 2015 Robert Diamond. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+#import <SpriteKit/SpriteKit.h>
 
-@interface Document : NSDocument
-
-@property (nonatomic,readonly) NSArray *readings;
+@interface ChartNode : SKNode
 
 @end
-

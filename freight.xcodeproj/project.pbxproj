@@ -14,6 +14,9 @@
 		9C24EC721B1A1C9600C74B32 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9C24EC711B1A1C9600C74B32 /* Images.xcassets */; };
 		9C24EC751B1A1C9600C74B32 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9C24EC731B1A1C9600C74B32 /* Main.storyboard */; };
 		9C24EC811B1A1C9600C74B32 /* freightTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C24EC801B1A1C9600C74B32 /* freightTests.m */; };
+		9C24ECBC1B1A25BF00C74B32 /* SpriteKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C24ECBB1B1A25BF00C74B32 /* SpriteKit.framework */; };
+		9C24ECBF1B1A26B700C74B32 /* ChartScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C24ECBE1B1A26B700C74B32 /* ChartScene.m */; };
+		9CB6AE3C1B1A32500063ED5E /* ChartNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CB6AE3B1B1A32500063ED5E /* ChartNode.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,6 +44,11 @@
 		9C24EC7A1B1A1C9600C74B32 /* freightTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = freightTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C24EC7F1B1A1C9600C74B32 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9C24EC801B1A1C9600C74B32 /* freightTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = freightTests.m; sourceTree = "<group>"; };
+		9C24ECBB1B1A25BF00C74B32 /* SpriteKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SpriteKit.framework; path = System/Library/Frameworks/SpriteKit.framework; sourceTree = SDKROOT; };
+		9C24ECBD1B1A26B700C74B32 /* ChartScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChartScene.h; path = freight/Chart/ChartScene.h; sourceTree = SOURCE_ROOT; };
+		9C24ECBE1B1A26B700C74B32 /* ChartScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ChartScene.m; path = freight/Chart/ChartScene.m; sourceTree = SOURCE_ROOT; };
+		9CB6AE3A1B1A32500063ED5E /* ChartNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChartNode.h; sourceTree = "<group>"; };
+		9CB6AE3B1B1A32500063ED5E /* ChartNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChartNode.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,6 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9C24ECBC1B1A25BF00C74B32 /* SpriteKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -64,6 +73,7 @@
 		9C24EC581B1A1C9600C74B32 = {
 			isa = PBXGroup;
 			children = (
+				9C24ECBB1B1A25BF00C74B32 /* SpriteKit.framework */,
 				9C24EC631B1A1C9600C74B32 /* freight */,
 				9C24EC7D1B1A1C9600C74B32 /* freightTests */,
 				9C24EC621B1A1C9600C74B32 /* Products */,
@@ -82,6 +92,7 @@
 		9C24EC631B1A1C9600C74B32 /* freight */ = {
 			isa = PBXGroup;
 			children = (
+				9CB6AE391B1A321B0063ED5E /* Chart */,
 				9C24EC661B1A1C9600C74B32 /* AppDelegate.h */,
 				9C24EC671B1A1C9600C74B32 /* AppDelegate.m */,
 				9C24EC6B1B1A1C9600C74B32 /* ViewController.h */,
@@ -119,6 +130,17 @@
 				9C24EC7F1B1A1C9600C74B32 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		9CB6AE391B1A321B0063ED5E /* Chart */ = {
+			isa = PBXGroup;
+			children = (
+				9C24ECBD1B1A26B700C74B32 /* ChartScene.h */,
+				9C24ECBE1B1A26B700C74B32 /* ChartScene.m */,
+				9CB6AE3A1B1A32500063ED5E /* ChartNode.h */,
+				9CB6AE3B1B1A32500063ED5E /* ChartNode.m */,
+			);
+			path = Chart;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -222,8 +244,10 @@
 			files = (
 				9C24EC701B1A1C9600C74B32 /* Document.m in Sources */,
 				9C24EC6D1B1A1C9600C74B32 /* ViewController.m in Sources */,
+				9CB6AE3C1B1A32500063ED5E /* ChartNode.m in Sources */,
 				9C24EC6A1B1A1C9600C74B32 /* main.m in Sources */,
 				9C24EC681B1A1C9600C74B32 /* AppDelegate.m in Sources */,
+				9C24ECBF1B1A26B700C74B32 /* ChartScene.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -413,6 +437,7 @@
 				9C24EC861B1A1C9600C74B32 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		9C24EC871B1A1C9600C74B32 /* Build configuration list for PBXNativeTarget "freightTests" */ = {
 			isa = XCConfigurationList;
@@ -421,6 +446,7 @@
 				9C24EC891B1A1C9600C74B32 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

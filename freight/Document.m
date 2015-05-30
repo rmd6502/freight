@@ -10,6 +10,8 @@
 
 @interface Document ()
 
+@property (nonatomic) NSArray *readings;
+
 @end
 
 @implementation Document
@@ -34,6 +36,8 @@
 - (void)makeWindowControllers {
     // Override to return the Storyboard file name of the document.
     [self addWindowController:[[NSStoryboard storyboardWithName:@"Main" bundle:nil] instantiateControllerWithIdentifier:@"Document Window Controller"]];
+    NSViewController *vc = ((NSWindowController *)self.windowControllers[0]).window.contentViewController;
+    [vc setRepresentedObject:self.readings];
 }
 
 - (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError {
@@ -44,10 +48,28 @@
 }
 
 - (BOOL)readFromData:(NSData *)data ofType:(NSString *)typeName error:(NSError **)outError {
-    // Insert code here to read your document from the given data of the specified type. If outError != NULL, ensure that you create and set an appropriate error when returning NO.
-    // You can also choose to override -readFromFileWrapper:ofType:error: or -readFromURL:ofType:error: instead.
-    // If you override either of these, you should also override -isEntireFileLoaded to return NO if the contents are lazily loaded.
-    [NSException raise:@"UnimplementedMethod" format:@"%@ is unimplemented", NSStringFromSelector(_cmd)];
+    NSError *error = nil;
+    NSDictionary *observeData = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+    if (error) {
+        *outError = error;
+        return NO;
+    }
+    if (![observeData isKindOfClass:[NSDictionary class]]) {
+        *outError = [NSError errorWithDomain:@"DataError" code:-1 userInfo:@{NSLocalizedDescriptionKey: @"root isn't a dictionary"}];
+        return NO;
+    }
+    if (![observeData[@"target"] isEqualToString:@"train"]) {
+        *outError = [NSError errorWithDomain:@"DataError" code:-1 userInfo:@{NSLocalizedDescriptionKey: @"not train data"}];
+        return NO;
+    }
+    if (![observeData[@"reports"] isKindOfClass:[NSArray class]]) {
+        *outError = [NSError errorWithDomain:@"DataError" code:-1 userInfo:@{NSLocalizedDescriptionKey: @"no readings"}];
+        return NO;
+    }
+
+    // readonly shallow copy
+    self.readings = [observeData[@"reports"] copy];
+    
     return YES;
 }
 
