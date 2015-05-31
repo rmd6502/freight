@@ -13,7 +13,9 @@
 @property SKShapeNode *pathNode;
 @property BOOL showsReticle;
 @property CGFloat minX, minY, maxX, maxY;
+@property (readonly) CGFloat width, height;
 
 - (void)addPoint:(NSPoint)point;
+- (void)createReticle;
 
 @end

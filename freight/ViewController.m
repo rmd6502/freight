@@ -56,6 +56,8 @@
     self.chartScene.maxX = self.mapMaxXField.doubleValue;
     self.chartScene.minY = self.mapMinYField.doubleValue;
     self.chartScene.maxY = self.mapMaxYField.doubleValue;
+    [self.chartScene createReticle];
+    self.chartScene.showsReticle = YES;
 
     self.timeIndex = 0;
     self.chartScene.delegate = self;
@@ -65,6 +67,8 @@
 - (void)viewDidLayout
 {
     [super viewDidLayout];
+    // TODO: bug on resize - the path to the current point isn't corrected
+    // we should probably be using scene coords, which would handle the scaling.
     self.chartScene.size = self.chartView.bounds.size;
 }
 
@@ -112,6 +116,7 @@
 
 #pragma mark - Actions
 - (IBAction)didSelectReticle:(NSButton *)sender {
+    self.chartScene.showsReticle = (sender.state == NSOnState);
 }
 
 - (IBAction)didSelectAutomaticMapSize:(NSButton *)sender {
@@ -172,7 +177,8 @@
         [self.estimator addSample:CGPointMake(xPos, yPos) timeStamp:observationTime*60];
         Sample *sample = [[self.estimator path] lastObject];
         if (sample) {
-            [self.chartScene addPoint:CGPointMake((sample.xPos - self.chartScene.minX) * scene.size.width / mapWidth, (sample.yPos - self.chartScene.minY) * scene.size.height / mapHeight)];
+            // TODO: use scene coordinates instead of calculating here
+            [self.chartScene addPoint:CGPointMake(sample.xPos, sample.yPos)];
         }
 
         SKShapeNode *newNode = [SKShapeNode shapeNodeWithCircleOfRadius:5.0];
