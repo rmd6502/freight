@@ -158,6 +158,8 @@
     NSArray *obs = [points dataFromTimeInterval:self.timeIndex toInterval:timeIndex];
     if (obs == nil) {
         self.atEndOfData = YES;
+    } else {
+        self.atEndOfData = NO;
     }
     self.timeIndex = timeIndex;
     for (NSDictionary *observation in obs) {
@@ -177,7 +179,7 @@
         newNode.fillColor = [SKColor blueColor];
         [scene addChild:newNode];
         newNode.position = CGPointMake((xPos - self.chartScene.minX) * scene.size.width / mapWidth, (yPos - self.chartScene.minY) * scene.size.height / mapHeight);
-//        NSLog(@"adding node from %.0f,%.0f to %@", xPos, yPos, NSStringFromPoint(newNode.position));
+        //NSLog(@"adding node from %.0f,%.0f to %@", xPos, yPos, NSStringFromPoint(newNode.position));
         [newNode runAction:[SKAction sequence:@[[SKAction scaleBy:1.5 duration:0.25],[SKAction scaleBy:(2.0/3.0) duration:0.25],[SKAction fadeOutWithDuration:1.5],[SKAction removeFromParent]]] completion:^{
             // If we're done we can pause the scene animation, which also stops the clock
             // There will be one child for the projected path
