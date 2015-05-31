@@ -11,6 +11,7 @@
 @interface Document ()
 
 @property (nonatomic) NSArray *readings;
+@property (strong) NSComparator cmp;
 
 @end
 
@@ -19,7 +20,21 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        // Add your subclass-specific initialization here.
+        self.cmp = ^NSComparisonResult(id obj1, id obj2) {
+            NSDictionary *d1 = (NSDictionary *)obj1;
+            NSDictionary *d2 = (NSDictionary *)obj2;
+            if (![d1 isKindOfClass:[NSDictionary class]] || ![d2 isKindOfClass:[NSDictionary class]]) {
+                return NSOrderedSame;
+            }
+            // nils will have a doublevalue of 0.  Other types may throw
+            double db1 = [d1[@"timestamp"] doubleValue];
+            double db2 = [d2[@"timestamp"] doubleValue];
+            if (db1 == db2) {
+                return NSOrderedSame;
+            } else {
+                return (db1 < db2) ? NSOrderedAscending : NSOrderedDescending;
+            }
+        };
     }
     return self;
 }
@@ -37,7 +52,7 @@
     // Override to return the Storyboard file name of the document.
     [self addWindowController:[[NSStoryboard storyboardWithName:@"Main" bundle:nil] instantiateControllerWithIdentifier:@"Document Window Controller"]];
     NSViewController *vc = ((NSWindowController *)self.windowControllers[0]).window.contentViewController;
-    [vc setRepresentedObject:self.readings];
+    [vc setRepresentedObject:self];
 }
 
 - (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError {
@@ -68,17 +83,24 @@
     }
 
     // readonly shallow copy sorted by time
-    self.readings = [observeData[@"reports"] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-        NSDictionary *d1 = (NSDictionary *)obj1;
-        NSDictionary *d2 = (NSDictionary *)obj2;
-        if (![d1 isKindOfClass:[NSDictionary class]] || ![d2 isKindOfClass:[NSDictionary class]]) {
-            return NSOrderedSame;
-        }
-        // nils will have a doublevalue of 0.  Other types may throw
-        return [d1[@"timestamp"] doubleValue] - [d2[@"timestamp"] doubleValue];
-    }];
+    self.readings = [observeData[@"reports"] sortedArrayUsingComparator:self.cmp];
     
     return YES;
+}
+
+#pragma mark - Query method
+- (NSArray *)dataFromTimeInterval:(NSTimeInterval)start toInterval:(NSTimeInterval)end
+{
+    NSUInteger startIndex = [self.readings indexOfObject:@{@"timestamp": @(start)} inSortedRange:NSMakeRange(0, self.readings.count) options:NSBinarySearchingInsertionIndex|NSBinarySearchingFirstEqual usingComparator:self.cmp];
+    if (startIndex == self.readings.count) {
+        return nil;
+    }
+    NSUInteger endIndex = [self.readings indexOfObject:@{@"timestamp": @(end)} inSortedRange:NSMakeRange(0, self.readings.count) options:NSBinarySearchingInsertionIndex|NSBinarySearchingFirstEqual usingComparator:self.cmp];
+    if (endIndex == 0 && [self.readings[0][@"timestamp"] doubleValue] > end) {
+        return nil;
+    }
+    NSLog(@"start %f end %f startindex %lu endindex %lu", start, end, startIndex, endIndex);
+    return [self.readings subarrayWithRange:NSMakeRange(startIndex, endIndex - startIndex)];
 }
 
 @end

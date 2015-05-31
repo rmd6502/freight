@@ -9,6 +9,7 @@
 #import <SpriteKit/SpriteKit.h>
 
 #import "ChartScene.h"
+#import "Document.h"
 #import "ViewController.h"
 
 @interface ViewController ()<SKSceneDelegate>
@@ -19,8 +20,6 @@
 @property (weak) IBOutlet SKView *chartView;
 @property (weak) IBOutlet NSButton *autoMapSize;
 @property ChartScene *chartScene;
-// index within the points in the represented object
-@property NSUInteger index;
 @property NSTimeInterval timeIndex;
 @property NSTimeInterval lastRunTime;
 @property (weak) IBOutlet NSTextField *simulationSpeedTextBox;
@@ -76,8 +75,8 @@
     CGFloat mapMaxX = -DBL_MAX;
     CGFloat mapMaxY = -DBL_MAX;
 
-    NSArray *points = self.representedObject;
-    for (NSDictionary *reading in points) {
+    Document *points = self.representedObject;
+    for (NSDictionary *reading in points.readings) {
         CGFloat xPos = [reading[@"x"] doubleValue];
         CGFloat yPos = [reading[@"y"] doubleValue];
 
@@ -122,20 +121,21 @@
 }
 
 #pragma mark - Data
-// TODO: handle negative speed and manually setting time index
 - (void)update:(NSTimeInterval)currentTime forScene:(SKScene *)scene
 {
-    NSTimeInterval runTime = currentTime - self.lastRunTime;
+    NSTimeInterval lastRunTime = self.lastRunTime;
     self.lastRunTime = currentTime;
-    if (self.index > 0) {
-        self.timeIndex += runTime * self.simulationSpeedSlider.doubleValue;
-    }
-    double speed = self.simulationSpeedSlider.doubleValue;
-    if (speed == 0) {
+    if (lastRunTime == 0) {
         return;
     }
+    double speed = self.simulationSpeedSlider.doubleValue;
+    if (speed == 0 || scene.paused) {
+        return;
+    }
+    NSTimeInterval runTime = (currentTime - lastRunTime) * speed;
+    NSTimeInterval timeIndex = self.timeIndex + runTime;
     self.timeIndexTextField.stringValue = [NSString stringWithFormat:@"%.3f", self.timeIndex];
-    NSArray *points = self.representedObject;
+    Document *points = self.representedObject;
     CGFloat mapMinX = self.mapMinXField.doubleValue;
     CGFloat mapMinY = self.mapMinYField.doubleValue;
     CGFloat mapMaxX = self.mapMaxXField.doubleValue;
@@ -144,25 +144,11 @@
     CGFloat mapWidth = mapMaxX - mapMinX;
     CGFloat mapHeight = mapMaxY - mapMinY;
 
-    while (self.index < points.count) {
-        NSDictionary *observation = points[self.index];
-        NSTimeInterval observationTime = [observation[@"timestamp"] doubleValue];
-        if (self.index == 0) {
-            self.timeIndex = observationTime;
-        }
-        if (speed > 0) {
-            if (observationTime > self.timeIndex) {
-                break;
-            } else {
-                ++self.index;
-            }
-        } else if (speed < 0) {
-            if (observationTime < self.timeIndex) {
-                break;
-            } else if (index > 0) {
-                --self.index;
-            }
-        }
+    NSArray *obs = [points dataFromTimeInterval:self.timeIndex toInterval:timeIndex];
+    self.timeIndex = timeIndex;
+    for (NSDictionary *observation in obs) {
+        //NSTimeInterval observationTime = [observation[@"timestamp"] doubleValue];
+
         CGFloat xPos = [observation[@"x"] doubleValue];
         CGFloat yPos = [observation[@"y"] doubleValue];
 
@@ -173,9 +159,6 @@
 //        NSLog(@"adding node from %.0f,%.0f to %@", xPos, yPos, NSStringFromPoint(newNode.position));
         [newNode runAction:[SKAction sequence:@[[SKAction scaleBy:1.5 duration:0.25],[SKAction scaleBy:(2.0/3.0) duration:0.25],[SKAction fadeOutWithDuration:1.5]]] completion:^{
             [scene removeChildrenInArray:@[newNode]];
-            if ((self.index == points.count || self.index == 0) && self.chartScene.children.count == 0) {
-                self.chartScene.paused = YES;
-            }
         }];
     }
 }
