@@ -14,6 +14,8 @@
 @interface ChartScene ()
 @property BOOL contentCreated;
 @property CGMutablePathRef path;
+@property BOOL showsReticleInternal;
+@property SKNode *reticleNode;
 @end
 
 @implementation ChartScene
@@ -51,7 +53,30 @@
     } else {
         CGPathAddLineToPoint(self.path, NULL, point.x, point.y);
     }
-    self.pathNode.path = self.path;
+    SKAction *changePath = [SKAction runBlock:^{
+        self.pathNode.path = self.path;
+    }];
+    changePath.duration = 0.75;
+    [self.pathNode runAction:changePath];
+}
+
+- (BOOL)showsReticle
+{
+    return self.showsReticleInternal;
+}
+
+- (void)setShowsReticle:(BOOL)showsReticle
+{
+    if (self.showsReticleInternal != showsReticle) {
+        self.showsReticleInternal = showsReticle;
+
+    }
+}
+
+- (void)createReticle
+{
+    self.reticleNode = [[SKNode alloc] init];
+
 }
 
 @end

@@ -51,6 +51,12 @@
 
 - (void)viewWillAppear {
     self.chartScene = [[ChartScene alloc] initWithSize:self.chartView.bounds.size];
+
+    self.chartScene.minX = self.mapMinXField.doubleValue;
+    self.chartScene.maxX = self.mapMaxXField.doubleValue;
+    self.chartScene.minY = self.mapMinYField.doubleValue;
+    self.chartScene.maxY = self.mapMaxYField.doubleValue;
+
     self.timeIndex = 0;
     self.chartScene.delegate = self;
     [self.chartView presentScene: self.chartScene];
@@ -144,13 +150,9 @@
 
     // Get the bounds so we can calculate scales
     Document *points = self.representedObject;
-    CGFloat mapMinX = self.mapMinXField.doubleValue;
-    CGFloat mapMinY = self.mapMinYField.doubleValue;
-    CGFloat mapMaxX = self.mapMaxXField.doubleValue;
-    CGFloat mapMaxY = self.mapMaxYField.doubleValue;
 
-    CGFloat mapWidth = mapMaxX - mapMinX;
-    CGFloat mapHeight = mapMaxY - mapMinY;
+    CGFloat mapWidth = self.chartScene.maxX - self.chartScene.minX;
+    CGFloat mapHeight = self.chartScene.maxY - self.chartScene.minY;
 
     // Fetch the points we're interested in
     NSArray *obs = [points dataFromTimeInterval:self.timeIndex toInterval:timeIndex];
@@ -168,16 +170,15 @@
         [self.estimator addSample:CGPointMake(xPos, yPos) timeStamp:observationTime*60];
         Sample *sample = [[self.estimator path] lastObject];
         if (sample) {
-            [self.chartScene addPoint:CGPointMake((sample.xPos - mapMinX) * scene.size.width / mapWidth, (sample.yPos - mapMinY) * scene.size.height / mapHeight)];
+            [self.chartScene addPoint:CGPointMake((sample.xPos - self.chartScene.minX) * scene.size.width / mapWidth, (sample.yPos - self.chartScene.minY) * scene.size.height / mapHeight)];
         }
 
         SKShapeNode *newNode = [SKShapeNode shapeNodeWithCircleOfRadius:5.0];
         newNode.fillColor = [SKColor blueColor];
         [scene addChild:newNode];
-        newNode.position = CGPointMake((xPos - mapMinX) * scene.size.width / mapWidth, (yPos - mapMinY) * scene.size.height / mapHeight);
+        newNode.position = CGPointMake((xPos - self.chartScene.minX) * scene.size.width / mapWidth, (yPos - self.chartScene.minY) * scene.size.height / mapHeight);
 //        NSLog(@"adding node from %.0f,%.0f to %@", xPos, yPos, NSStringFromPoint(newNode.position));
-        [newNode runAction:[SKAction sequence:@[[SKAction scaleBy:1.5 duration:0.25],[SKAction scaleBy:(2.0/3.0) duration:0.25],[SKAction fadeOutWithDuration:1.5]]] completion:^{
-            [scene removeChildrenInArray:@[newNode]];
+        [newNode runAction:[SKAction sequence:@[[SKAction scaleBy:1.5 duration:0.25],[SKAction scaleBy:(2.0/3.0) duration:0.25],[SKAction fadeOutWithDuration:1.5],[SKAction removeFromParent]]] completion:^{
             // If we're done we can pause the scene animation, which also stops the clock
             // There will be one child for the projected path
             if (self.atEndOfData && scene.children.count < 2) {

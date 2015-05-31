@@ -53,6 +53,7 @@
     // Override to return the Storyboard file name of the document.
     [self addWindowController:[[NSStoryboard storyboardWithName:@"Main" bundle:nil] instantiateControllerWithIdentifier:@"Document Window Controller"]];
     NSViewController<Estimatable> *vc = (NSViewController<Estimatable> *)((NSWindowController *)self.windowControllers[0]).window.contentViewController;
+    // Since the estimator type would be saved with the view, I feel this is reasonable
     [vc setEstimator:[EstimatorFactory estimatorNamed:@"MovingAverage"]];
     [vc setRepresentedObject:self];
 }

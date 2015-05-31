@@ -11,6 +11,8 @@
 @interface ChartScene : SKScene
 
 @property SKShapeNode *pathNode;
+@property BOOL showsReticle;
+@property CGFloat minX, minY, maxX, maxY;
 
 - (void)addPoint:(NSPoint)point;
 

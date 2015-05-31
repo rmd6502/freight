@@ -70,6 +70,8 @@
 
 - (double)speed
 {
+    // estimate the speed as the distance between the last two points / the time between the
+    // last two points.
     if (self.positions.count > 1) {
         Sample *lastSample = [self.positions lastObject];
         Sample *secondLastSample = self.positions[self.positions.count - 2];
