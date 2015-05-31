@@ -44,7 +44,7 @@
 		9C24EC6C1B1A1C9600C74B32 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		9C24EC6E1B1A1C9600C74B32 /* Document.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Document.h; sourceTree = "<group>"; };
 		9C24EC6F1B1A1C9600C74B32 /* Document.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Document.m; sourceTree = "<group>"; };
-		9C24EC711B1A1C9600C74B32 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		9C24EC711B1A1C9600C74B32 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ../Images.xcassets; sourceTree = "<group>"; };
 		9C24EC741B1A1C9600C74B32 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9C24EC7A1B1A1C9600C74B32 /* freightTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = freightTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C24EC7F1B1A1C9600C74B32 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -111,7 +111,6 @@
 				9C24EC6C1B1A1C9600C74B32 /* ViewController.m */,
 				9C24EC6E1B1A1C9600C74B32 /* Document.h */,
 				9C24EC6F1B1A1C9600C74B32 /* Document.m */,
-				9C24EC711B1A1C9600C74B32 /* Images.xcassets */,
 				9C24EC731B1A1C9600C74B32 /* Main.storyboard */,
 				9C24EC641B1A1C9600C74B32 /* Supporting Files */,
 			);
@@ -148,6 +147,7 @@
 		9CB6AE391B1A321B0063ED5E /* Chart */ = {
 			isa = PBXGroup;
 			children = (
+				9C24EC711B1A1C9600C74B32 /* Images.xcassets */,
 				9C24ECBD1B1A26B700C74B32 /* ChartScene.h */,
 				9C24ECBE1B1A26B700C74B32 /* ChartScene.m */,
 				9CB6AE3A1B1A32500063ED5E /* ChartNode.h */,

@@ -10,4 +10,8 @@
 
 @interface ChartScene : SKScene
 
+@property SKShapeNode *pathNode;
+
+- (void)addPoint:(NSPoint)point;
+
 @end

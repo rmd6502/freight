@@ -30,7 +30,7 @@
     if (self = [super init]) {
         self.samples = [NSMutableArray new];
         self.positions = [NSMutableArray new];
-        self.backTime = 10;
+        self.backTime = 60;
     }
     return self;
 }
@@ -61,6 +61,8 @@
     NSArray *newsamples = self.samples;
     self.samples = [NSMutableArray new];
     self.positions = [NSMutableArray new];
+    self.xSum = 0;
+    self.ySum = 0;
     for (Sample *sample in newsamples) {
         [self addSample:CGPointMake(sample.xPos, sample.yPos) timeStamp:sample.offset];
     }

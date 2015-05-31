@@ -31,6 +31,7 @@
 }
 
 - (void)testAveraging {
+    [self.estimator setAttributeNamed:@"backtime" toValue:@10];
     [self.estimator addSample:CGPointMake(0, 0) timeStamp:1.0];
     [self.estimator addSample:CGPointMake(2, 2) timeStamp:3.0];
     [self.estimator addSample:CGPointMake(4, 4) timeStamp:5.0];
@@ -53,9 +54,16 @@
 }
 
 - (void)testAttributes {
+    [self.estimator addSample:CGPointMake(0, 0) timeStamp:1.0];
+    [self.estimator addSample:CGPointMake(2, 2) timeStamp:3.0];
+    [self.estimator addSample:CGPointMake(4, 4) timeStamp:5.0];
+    [self.estimator addSample:CGPointMake(6, 6) timeStamp:7.0];
+    [self.estimator addSample:CGPointMake(8, 8) timeStamp:9.0];
     [self.estimator setAttributeNamed:@"backtime" toValue:@5];
     NSTimeInterval backTime = [[self.estimator getAttributeNamed:@"backtime"] doubleValue];
     XCTAssert(backTime == 5, @"failed to set or get backtime attribute: %.2f", backTime);
+    double xSum = [[self.estimator getAttributeNamed:@"xsum"] doubleValue];
+    XCTAssert(xSum == 18, @"estimator did not recalculate back time: %.2f", xSum);
 }
 
 @end

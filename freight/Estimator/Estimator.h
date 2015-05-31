@@ -18,6 +18,12 @@
 
 @end
 
+@protocol Estimatable <NSObject>
+
+- (void)setEstimator:(id<Estimator>)newEstimator;
+
+@end
+
 @interface Sample : NSObject
 
 @property CGFloat xPos;

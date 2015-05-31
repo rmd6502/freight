@@ -22,7 +22,7 @@
 @property (weak) IBOutlet NSTextField *simulationSpeedTextBox;
 @property (weak) IBOutlet NSSlider *simulationSpeedSlider;
 @property (weak) IBOutlet NSTextField *timeIndexTextField;
-@property ChartScene *chartScene;
+@property (strong) ChartScene *chartScene;
 @property NSTimeInterval timeIndex;
 @property NSTimeInterval lastRunTime;
 @property BOOL atEndOfData;
@@ -60,6 +60,11 @@
 {
     [super viewDidLayout];
     self.chartScene.size = self.chartView.bounds.size;
+}
+
+- (void)dealloc
+{
+    self.chartScene.delegate = nil;
 }
 
 #pragma mark - Document
@@ -123,6 +128,7 @@
 #pragma mark - Data
 - (void)update:(NSTimeInterval)currentTime forScene:(SKScene *)scene
 {
+    // Update our run time
     NSTimeInterval lastRunTime = self.lastRunTime;
     self.lastRunTime = currentTime;
     if (lastRunTime == 0) {
@@ -135,6 +141,8 @@
     NSTimeInterval runTime = (currentTime - lastRunTime) * speed;
     NSTimeInterval timeIndex = self.timeIndex + runTime;
     self.timeIndexTextField.stringValue = [NSString stringWithFormat:@"%.3f", self.timeIndex];
+
+    // Get the bounds so we can calculate scales
     Document *points = self.representedObject;
     CGFloat mapMinX = self.mapMinXField.doubleValue;
     CGFloat mapMinY = self.mapMinYField.doubleValue;
@@ -144,16 +152,24 @@
     CGFloat mapWidth = mapMaxX - mapMinX;
     CGFloat mapHeight = mapMaxY - mapMinY;
 
+    // Fetch the points we're interested in
     NSArray *obs = [points dataFromTimeInterval:self.timeIndex toInterval:timeIndex];
     if (obs == nil) {
         self.atEndOfData = YES;
     }
     self.timeIndex = timeIndex;
     for (NSDictionary *observation in obs) {
-        //NSTimeInterval observationTime = [observation[@"timestamp"] doubleValue];
+        NSTimeInterval observationTime = [observation[@"timestamp"] doubleValue];
 
         CGFloat xPos = [observation[@"x"] doubleValue];
         CGFloat yPos = [observation[@"y"] doubleValue];
+
+        // time is in minutes, convert to seconds
+        [self.estimator addSample:CGPointMake(xPos, yPos) timeStamp:observationTime*60];
+        Sample *sample = [[self.estimator path] lastObject];
+        if (sample) {
+            [self.chartScene addPoint:CGPointMake((sample.xPos - mapMinX) * scene.size.width / mapWidth, (sample.yPos - mapMinY) * scene.size.height / mapHeight)];
+        }
 
         SKShapeNode *newNode = [SKShapeNode shapeNodeWithCircleOfRadius:5.0];
         newNode.fillColor = [SKColor blueColor];
@@ -162,7 +178,9 @@
 //        NSLog(@"adding node from %.0f,%.0f to %@", xPos, yPos, NSStringFromPoint(newNode.position));
         [newNode runAction:[SKAction sequence:@[[SKAction scaleBy:1.5 duration:0.25],[SKAction scaleBy:(2.0/3.0) duration:0.25],[SKAction fadeOutWithDuration:1.5]]] completion:^{
             [scene removeChildrenInArray:@[newNode]];
-            if (self.atEndOfData && scene.children.count == 0) {
+            // If we're done we can pause the scene animation, which also stops the clock
+            // There will be one child for the projected path
+            if (self.atEndOfData && scene.children.count < 2) {
                 scene.paused = YES;
             }
         }];

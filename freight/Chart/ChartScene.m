@@ -13,6 +13,7 @@
 
 @interface ChartScene ()
 @property BOOL contentCreated;
+@property CGMutablePathRef path;
 @end
 
 @implementation ChartScene
@@ -23,6 +24,7 @@
     {
         [self createSceneContents];
         self.contentCreated = YES;
+        self.path = CGPathCreateMutable();
     }
 }
 
@@ -32,6 +34,24 @@
     // TODO: allow chooser
     self.backgroundColor = [SKColor whiteColor];
     self.scaleMode = SKSceneScaleModeAspectFit;
+    self.pathNode = [[SKShapeNode alloc] init];
+    self.pathNode.strokeColor = [SKColor darkGrayColor];
+    self.pathNode.lineWidth = 7.0;
+    self.pathNode.lineJoin = kCGLineJoinRound;
+    self.pathNode.lineCap = kCGLineCapRound;
+    self.pathNode.antialiased = YES;
+    [self addChild:self.pathNode];
+}
+
+- (void)addPoint:(NSPoint)point
+{
+    //NSLog(@"adding point %@", NSStringFromPoint(point));
+    if (CGPathIsEmpty(self.path)) {
+        CGPathMoveToPoint(self.path, NULL, point.x, point.y);
+    } else {
+        CGPathAddLineToPoint(self.path, NULL, point.x, point.y);
+    }
+    self.pathNode.path = self.path;
 }
 
 @end

@@ -7,6 +7,7 @@
 //
 
 #import "Document.h"
+#import "EstimatorFactory.h"
 
 @interface Document ()
 
@@ -51,7 +52,8 @@
 - (void)makeWindowControllers {
     // Override to return the Storyboard file name of the document.
     [self addWindowController:[[NSStoryboard storyboardWithName:@"Main" bundle:nil] instantiateControllerWithIdentifier:@"Document Window Controller"]];
-    NSViewController *vc = ((NSWindowController *)self.windowControllers[0]).window.contentViewController;
+    NSViewController<Estimatable> *vc = (NSViewController<Estimatable> *)((NSWindowController *)self.windowControllers[0]).window.contentViewController;
+    [vc setEstimator:[EstimatorFactory estimatorNamed:@"MovingAverage"]];
     [vc setRepresentedObject:self];
 }
 

@@ -10,7 +10,7 @@
 
 #import "Estimator.h"
 
-@interface ViewController : NSViewController
+@interface ViewController : NSViewController<Estimatable>
 
 @property id<Estimator> estimator;
 
