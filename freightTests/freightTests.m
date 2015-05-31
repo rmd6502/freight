@@ -9,6 +9,9 @@
 #import <Cocoa/Cocoa.h>
 #import <XCTest/XCTest.h>
 
+#import "EstimatorFactory.h"
+#import "MovingAverageEstimator.h"
+
 @interface freightTests : XCTestCase
 
 @end
@@ -25,16 +28,11 @@
     [super tearDown];
 }
 
-- (void)testExample {
-    // This is an example of a functional test case.
-    XCTAssert(YES, @"Pass");
-}
-
-- (void)testPerformanceExample {
-    // This is an example of a performance test case.
-    [self measureBlock:^{
-        // Put the code you want to measure the time of here.
-    }];
+- (void)testEstimatorFactory {
+    id<Estimator> estimator = [EstimatorFactory estimatorNamed:@"MovingAverage"];
+    XCTAssert([estimator isKindOfClass:[MovingAverageEstimator class]], @"factory failed to create an estimator");
+    estimator = [EstimatorFactory estimatorNamed:@"foo"];
+    XCTAssert(estimator == nil, @"factory created a bad class");
 }
 
 @end

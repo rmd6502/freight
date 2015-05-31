@@ -18,6 +18,10 @@
 		9C24ECBF1B1A26B700C74B32 /* ChartScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C24ECBE1B1A26B700C74B32 /* ChartScene.m */; };
 		9CB6AE3C1B1A32500063ED5E /* ChartNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CB6AE3B1B1A32500063ED5E /* ChartNode.m */; };
 		9CB6AE411B1AC9120063ED5E /* MovingAverageEstimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CB6AE401B1AC9120063ED5E /* MovingAverageEstimator.m */; };
+		9CB6AE441B1B629E0063ED5E /* EstimatorFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CB6AE431B1B629E0063ED5E /* EstimatorFactory.m */; };
+		9CB6AE451B1B63630063ED5E /* EstimatorFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CB6AE431B1B629E0063ED5E /* EstimatorFactory.m */; };
+		9CB6AE461B1B63670063ED5E /* MovingAverageEstimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CB6AE401B1AC9120063ED5E /* MovingAverageEstimator.m */; };
+		9CB6AE491B1B645F0063ED5E /* MovingAverageEstimatorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CB6AE481B1B645F0063ED5E /* MovingAverageEstimatorTest.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +57,9 @@
 		9CB6AE3E1B1A7C0A0063ED5E /* Estimator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Estimator.h; sourceTree = "<group>"; };
 		9CB6AE3F1B1AC9120063ED5E /* MovingAverageEstimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovingAverageEstimator.h; sourceTree = "<group>"; };
 		9CB6AE401B1AC9120063ED5E /* MovingAverageEstimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MovingAverageEstimator.m; sourceTree = "<group>"; };
+		9CB6AE421B1B629E0063ED5E /* EstimatorFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EstimatorFactory.h; sourceTree = "<group>"; };
+		9CB6AE431B1B629E0063ED5E /* EstimatorFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EstimatorFactory.m; sourceTree = "<group>"; };
+		9CB6AE481B1B645F0063ED5E /* MovingAverageEstimatorTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MovingAverageEstimatorTest.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +132,7 @@
 			children = (
 				9C24EC801B1A1C9600C74B32 /* freightTests.m */,
 				9C24EC7E1B1A1C9600C74B32 /* Supporting Files */,
+				9CB6AE481B1B645F0063ED5E /* MovingAverageEstimatorTest.m */,
 			);
 			path = freightTests;
 			sourceTree = "<group>";
@@ -154,6 +162,8 @@
 				9CB6AE3E1B1A7C0A0063ED5E /* Estimator.h */,
 				9CB6AE3F1B1AC9120063ED5E /* MovingAverageEstimator.h */,
 				9CB6AE401B1AC9120063ED5E /* MovingAverageEstimator.m */,
+				9CB6AE421B1B629E0063ED5E /* EstimatorFactory.h */,
+				9CB6AE431B1B629E0063ED5E /* EstimatorFactory.m */,
 			);
 			name = Estimators;
 			path = Estimator;
@@ -263,6 +273,7 @@
 				9CB6AE3C1B1A32500063ED5E /* ChartNode.m in Sources */,
 				9C24EC6A1B1A1C9600C74B32 /* main.m in Sources */,
 				9CB6AE411B1AC9120063ED5E /* MovingAverageEstimator.m in Sources */,
+				9CB6AE441B1B629E0063ED5E /* EstimatorFactory.m in Sources */,
 				9C24EC681B1A1C9600C74B32 /* AppDelegate.m in Sources */,
 				9C24ECBF1B1A26B700C74B32 /* ChartScene.m in Sources */,
 			);
@@ -273,6 +284,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				9C24EC811B1A1C9600C74B32 /* freightTests.m in Sources */,
+				9CB6AE461B1B63670063ED5E /* MovingAverageEstimator.m in Sources */,
+				9CB6AE491B1B645F0063ED5E /* MovingAverageEstimatorTest.m in Sources */,
+				9CB6AE451B1B63630063ED5E /* EstimatorFactory.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

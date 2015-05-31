@@ -8,18 +8,6 @@
 
 #import "MovingAverageEstimator.h"
 
-@interface Sample : NSObject
-
-@property CGFloat xPos;
-@property CGFloat yPos;
-@property NSTimeInterval offset;
-
-@end
-
-@implementation Sample
-
-@end
-
 @interface MovingAverageEstimator ()
 // appended with our estimated positions
 @property (strong) NSMutableArray *positions;
@@ -64,6 +52,17 @@
         newPathItem.yPos = self.ySum / sampleCount;
         newPathItem.offset = newSample.offset;
         [self.positions addObject:newPathItem];
+    }
+}
+
+// ugly, but not intended for production
+- (void)readdSamples
+{
+    NSArray *newsamples = self.samples;
+    self.samples = [NSMutableArray new];
+    self.positions = [NSMutableArray new];
+    for (Sample *sample in newsamples) {
+        [self addSample:CGPointMake(sample.xPos, sample.yPos) timeStamp:sample.offset];
     }
 }
 
@@ -112,6 +111,7 @@
 {
     if ([attribute isEqualToString:@"backtime"]) {
         self.backTime = [value doubleValue];
+        [self readdSamples];
     }
 }
 
@@ -123,6 +123,10 @@
         return @(self.backTime);
     } else if ([attribute isEqualToString:@"samplecount"]) {
         return @(self.samples.count);
+    } else if ([attribute isEqualToString:@"xsum"]) {
+        return @(self.xSum);
+    } else if ([attribute isEqualToString:@"ysum"]) {
+        return @(self.ySum);
     } else {
         return nil;
     }
