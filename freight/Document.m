@@ -95,11 +95,11 @@
     if (startIndex == self.readings.count) {
         return nil;
     }
-    NSUInteger endIndex = [self.readings indexOfObject:@{@"timestamp": @(end)} inSortedRange:NSMakeRange(0, self.readings.count) options:NSBinarySearchingInsertionIndex|NSBinarySearchingFirstEqual usingComparator:self.cmp];
+    NSUInteger endIndex = [self.readings indexOfObject:@{@"timestamp": @(end)} inSortedRange:NSMakeRange(0, self.readings.count) options:NSBinarySearchingInsertionIndex|NSBinarySearchingLastEqual usingComparator:self.cmp];
     if (endIndex == 0 && [self.readings[0][@"timestamp"] doubleValue] > end) {
         return nil;
     }
-    NSLog(@"start %f end %f startindex %lu endindex %lu", start, end, startIndex, endIndex);
+//    NSLog(@"start %f end %f startindex %lu endindex %lu", start, end, startIndex, endIndex);
     return [self.readings subarrayWithRange:NSMakeRange(startIndex, endIndex - startIndex)];
 }
 

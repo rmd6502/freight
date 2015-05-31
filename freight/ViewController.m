@@ -19,13 +19,13 @@
 @property (weak) IBOutlet NSTextField *mapMaxYField;
 @property (weak) IBOutlet SKView *chartView;
 @property (weak) IBOutlet NSButton *autoMapSize;
-@property ChartScene *chartScene;
-@property NSTimeInterval timeIndex;
-@property NSTimeInterval lastRunTime;
 @property (weak) IBOutlet NSTextField *simulationSpeedTextBox;
 @property (weak) IBOutlet NSSlider *simulationSpeedSlider;
 @property (weak) IBOutlet NSTextField *timeIndexTextField;
-
+@property ChartScene *chartScene;
+@property NSTimeInterval timeIndex;
+@property NSTimeInterval lastRunTime;
+@property BOOL atEndOfData;
 @end
 
 @implementation ViewController
@@ -145,6 +145,9 @@
     CGFloat mapHeight = mapMaxY - mapMinY;
 
     NSArray *obs = [points dataFromTimeInterval:self.timeIndex toInterval:timeIndex];
+    if (obs == nil) {
+        self.atEndOfData = YES;
+    }
     self.timeIndex = timeIndex;
     for (NSDictionary *observation in obs) {
         //NSTimeInterval observationTime = [observation[@"timestamp"] doubleValue];
@@ -159,6 +162,9 @@
 //        NSLog(@"adding node from %.0f,%.0f to %@", xPos, yPos, NSStringFromPoint(newNode.position));
         [newNode runAction:[SKAction sequence:@[[SKAction scaleBy:1.5 duration:0.25],[SKAction scaleBy:(2.0/3.0) duration:0.25],[SKAction fadeOutWithDuration:1.5]]] completion:^{
             [scene removeChildrenInArray:@[newNode]];
+            if (self.atEndOfData && scene.children.count == 0) {
+                scene.paused = YES;
+            }
         }];
     }
 }
