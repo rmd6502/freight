@@ -10,6 +10,8 @@
 
 @protocol Estimator <NSObject>
 
+- (void)setAttributeNamed:(NSString *)attribute toValue:(id)value;
+- (id)getAttributeNamed:(NSString *)attribute;
 - (void)addSample:(CGPoint)point timeStamp:(NSTimeInterval)timeStamp;
 - (double)speed;
 - (NSArray *)path;
