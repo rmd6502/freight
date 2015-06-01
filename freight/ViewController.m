@@ -189,7 +189,7 @@
         [newNode runAction:[SKAction sequence:@[[SKAction scaleBy:1.5 duration:0.25],[SKAction scaleBy:(2.0/3.0) duration:0.25],[SKAction fadeOutWithDuration:1.5],[SKAction removeFromParent]]] completion:^{
             // If we're done we can pause the scene animation, which also stops the clock
             // There will be one child for the projected path
-            if (self.atEndOfData && scene.children.count < 2) {
+            if (self.atEndOfData && scene.children.count < 3) {
                 scene.paused = YES;
             }
         }];
