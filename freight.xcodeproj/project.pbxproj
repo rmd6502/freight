@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1E653D6F1B1CC7EA00933D3D /* Sample.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E653D6E1B1CC7EA00933D3D /* Sample.m */; };
+		1E653D701B1CC82500933D3D /* Sample.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E653D6E1B1CC7EA00933D3D /* Sample.m */; };
 		9C24EC681B1A1C9600C74B32 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C24EC671B1A1C9600C74B32 /* AppDelegate.m */; };
 		9C24EC6A1B1A1C9600C74B32 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C24EC691B1A1C9600C74B32 /* main.m */; };
 		9C24EC6D1B1A1C9600C74B32 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C24EC6C1B1A1C9600C74B32 /* ViewController.m */; };
@@ -35,6 +37,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1E653D6D1B1CC7EA00933D3D /* Sample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Sample.h; path = Estimator/Sample.h; sourceTree = "<group>"; };
+		1E653D6E1B1CC7EA00933D3D /* Sample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Sample.m; path = Estimator/Sample.m; sourceTree = "<group>"; };
 		9C24EC611B1A1C9600C74B32 /* freight.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = freight.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C24EC651B1A1C9600C74B32 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9C24EC661B1A1C9600C74B32 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -111,6 +115,8 @@
 				9C24EC6C1B1A1C9600C74B32 /* ViewController.m */,
 				9C24EC6E1B1A1C9600C74B32 /* Document.h */,
 				9C24EC6F1B1A1C9600C74B32 /* Document.m */,
+				1E653D6D1B1CC7EA00933D3D /* Sample.h */,
+				1E653D6E1B1CC7EA00933D3D /* Sample.m */,
 				9C24EC731B1A1C9600C74B32 /* Main.storyboard */,
 				9C24EC641B1A1C9600C74B32 /* Supporting Files */,
 			);
@@ -271,6 +277,7 @@
 				9C24EC701B1A1C9600C74B32 /* Document.m in Sources */,
 				9C24EC6D1B1A1C9600C74B32 /* ViewController.m in Sources */,
 				9CB6AE3C1B1A32500063ED5E /* ChartNode.m in Sources */,
+				1E653D6F1B1CC7EA00933D3D /* Sample.m in Sources */,
 				9C24EC6A1B1A1C9600C74B32 /* main.m in Sources */,
 				9CB6AE411B1AC9120063ED5E /* MovingAverageEstimator.m in Sources */,
 				9CB6AE441B1B629E0063ED5E /* EstimatorFactory.m in Sources */,
@@ -285,6 +292,7 @@
 			files = (
 				9C24EC811B1A1C9600C74B32 /* freightTests.m in Sources */,
 				9CB6AE461B1B63670063ED5E /* MovingAverageEstimator.m in Sources */,
+				1E653D701B1CC82500933D3D /* Sample.m in Sources */,
 				9CB6AE491B1B645F0063ED5E /* MovingAverageEstimatorTest.m in Sources */,
 				9CB6AE451B1B63630063ED5E /* EstimatorFactory.m in Sources */,
 			);

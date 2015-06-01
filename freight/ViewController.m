@@ -10,6 +10,7 @@
 
 #import "ChartScene.h"
 #import "Document.h"
+#import "Sample.h"
 #import "ViewController.h"
 
 @interface ViewController ()<SKSceneDelegate>
@@ -178,7 +179,7 @@
         Sample *sample = [[self.estimator path] lastObject];
         if (sample) {
             // TODO: use scene coordinates instead of calculating here
-            [self.chartScene addPoint:CGPointMake(sample.xPos, sample.yPos)];
+            [self.chartScene addSample:sample];
         }
 
         SKShapeNode *newNode = [SKShapeNode shapeNodeWithCircleOfRadius:5.0];

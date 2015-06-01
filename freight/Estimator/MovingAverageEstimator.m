@@ -7,6 +7,7 @@
 //
 
 #import "MovingAverageEstimator.h"
+#import "Sample.h"
 
 @interface MovingAverageEstimator ()
 // appended with our estimated positions
@@ -35,6 +36,7 @@
     return self;
 }
 
+#pragma mark - Estimator Protocol
 - (void)addSample:(CGPoint)point timeStamp:(NSTimeInterval)timeStamp
 {
     Sample *newSample = [[Sample alloc] init];
@@ -55,19 +57,6 @@
     }
 }
 
-// ugly, but not intended for production
-- (void)readdSamples
-{
-    NSArray *newsamples = self.samples;
-    self.samples = [NSMutableArray new];
-    self.positions = [NSMutableArray new];
-    self.xSum = 0;
-    self.ySum = 0;
-    for (Sample *sample in newsamples) {
-        [self addSample:CGPointMake(sample.xPos, sample.yPos) timeStamp:sample.offset];
-    }
-}
-
 - (double)speed
 {
     // estimate the speed as the distance between the last two points / the time between the
@@ -85,25 +74,6 @@
     }
     // can't calculate or error above
     return 0;
-}
-
-- (void)_recalculatePositions
-{
-    // 0 or 1 samples means there's nothing to do
-    if (self.samples.count < 2) {
-        return;
-    }
-    NSTimeInterval latestTime = [(Sample *)[self.samples lastObject] offset];
-    while (self.firstSample < self.samples.count) {
-        Sample *current = self.samples[self.firstSample];
-        if (latestTime - current.offset > self.backTime) {
-            self.xSum -= current.xPos;
-            self.ySum -= current.yPos;
-            ++self.firstSample;
-        } else {
-            break;
-        }
-    }
 }
 
 - (NSArray *)path
@@ -133,6 +103,39 @@
         return @(self.ySum);
     } else {
         return nil;
+    }
+}
+
+#pragma mark - Private Methods
+// ugly, but not intended for production
+- (void)readdSamples
+{
+    NSArray *newsamples = self.samples;
+    self.samples = [NSMutableArray new];
+    self.positions = [NSMutableArray new];
+    self.xSum = 0;
+    self.ySum = 0;
+    for (Sample *sample in newsamples) {
+        [self addSample:CGPointMake(sample.xPos, sample.yPos) timeStamp:sample.offset];
+    }
+}
+
+- (void)_recalculatePositions
+{
+    // 0 or 1 samples means there's nothing to do
+    if (self.samples.count < 2) {
+        return;
+    }
+    NSTimeInterval latestTime = [(Sample *)[self.samples lastObject] offset];
+    while (self.firstSample < self.samples.count) {
+        Sample *current = self.samples[self.firstSample];
+        if (latestTime - current.offset > self.backTime) {
+            self.xSum -= current.xPos;
+            self.ySum -= current.yPos;
+            ++self.firstSample;
+        } else {
+            break;
+        }
     }
 }
 

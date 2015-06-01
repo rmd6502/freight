@@ -11,6 +11,7 @@
 
 #import "EstimatorFactory.h"
 #import "MovingAverageEstimator.h"
+#import "Sample.h"
 
 @interface MovingAverageEstimatorTest : XCTestCase
 @property (strong) MovingAverageEstimator *estimator;
