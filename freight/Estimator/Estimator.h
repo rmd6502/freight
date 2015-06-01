@@ -23,12 +23,3 @@
 - (void)setEstimator:(id<Estimator>)newEstimator;
 
 @end
-
-@interface Sample : NSObject
-
-@property CGFloat xPos;
-@property CGFloat yPos;
-@property NSTimeInterval offset;
-
-@end
-

@@ -10,20 +10,10 @@
 
 #import "ChartNode.h"
 #import "ChartScene.h"
-
-@interface PathPoint : NSObject
-@property CGFloat x, y;
-@end
-@implementation PathPoint
-- (NSString *)description
-{
-    return [NSString stringWithFormat:@"PathPoint at %.2f,%.2f", self.x, self.y];
-}
-@end
+#import "Sample.h"
 
 @interface ChartScene ()
 @property BOOL contentCreated;
-@property CGMutablePathRef path;
 @property BOOL showsReticleInternal;
 @property SKNode *reticleNode;
 @property (strong) NSMutableArray *pathPoints;
@@ -44,7 +34,6 @@
     {
         [self createSceneContents];
         self.contentCreated = YES;
-        self.path = CGPathCreateMutable();
     }
 }
 
@@ -54,39 +43,49 @@
     // TODO: allow chooser
     self.backgroundColor = [SKColor whiteColor];
     self.scaleMode = SKSceneScaleModeAspectFit;
-    self.pathNode = [[SKShapeNode alloc] init];
-    self.pathNode.strokeColor = [SKColor darkGrayColor];
-    self.pathNode.lineWidth = 7.0;
-    self.pathNode.lineJoin = kCGLineJoinRound;
-    self.pathNode.lineCap = kCGLineCapRound;
-    self.pathNode.antialiased = YES;
+    self.pathNode = [[SKNode alloc] init];
     [self addChild:self.pathNode];
 }
 
-- (void)addPoint:(NSPoint)nodePoint
+- (CGPoint)adjustedPoint:(CGPoint)point
 {
-    //NSLog(@"adding point %@", NSStringFromPoint(nodePoint));
-    PathPoint *newPoint = [PathPoint new];
-    newPoint.x = nodePoint.x;
-    newPoint.y = nodePoint.y;
-    [self.pathPoints addObject:newPoint];
-    [self _internalAddPoint:newPoint];
+    return CGPointMake((point.x - self.minX) * self.size.width / self.width, (point.y - self.minY) * self.size.height / self.height);
 }
 
-- (void)_internalAddPoint:(PathPoint *)nodePoint
+- (void)addSample:(Sample *)sample
 {
-    CGPoint point = CGPointMake((nodePoint.x - self.minX) * self.size.width / self.width, (nodePoint.y - self.minY) * self.size.height / self.height);
+    Sample *lastSample = [self.pathPoints lastObject];
 
-    if (CGPathIsEmpty(self.path)) {
-        CGPathMoveToPoint(self.path, NULL, point.x, point.y);
-    } else {
-        CGPathAddLineToPoint(self.path, NULL, point.x, point.y);
+    [self.pathPoints addObject:sample];
+
+    if (lastSample) {
+        CGPoint point = [self adjustedPoint:CGPointMake(sample.xPos, sample.yPos)];
+        CGPoint lastPoint = [self adjustedPoint:CGPointMake(lastSample.xPos, lastSample.yPos)];
+
+        CGMutablePathRef path = CGPathCreateMutable();
+        CGPathMoveToPoint(path, NULL, lastPoint.x, lastPoint.y);
+        CGPathAddLineToPoint(path, NULL, point.x, point.y);
+
+        SKShapeNode *pathNode = [SKShapeNode shapeNodeWithPath:path];
+        pathNode.strokeColor = [SKColor darkGrayColor];
+        pathNode.lineWidth = 7.0;
+        pathNode.lineJoin = kCGLineJoinRound;
+        pathNode.lineCap = kCGLineCapRound;
+        pathNode.antialiased = YES;
+        pathNode.alpha = 0;
+        pathNode.userData = [@{@"sample": sample} mutableCopy];
+        pathNode.userInteractionEnabled = YES;
+        SKLabelNode *label = [SKLabelNode labelNodeWithText:[NSString stringWithFormat:@"%.2f", sample.offset]];
+        label.fontSize = 14.0;
+        label.fontColor = [SKColor blackColor];
+        label.position = lastPoint;
+        label.hidden = YES;
+        [pathNode addChild:label];
+
+        [self.pathNode addChild:pathNode];
+
+        [pathNode runAction:[SKAction fadeInWithDuration:0.5]];
     }
-    SKAction *changePath = [SKAction runBlock:^{
-        self.pathNode.path = self.path;
-    }];
-    changePath.duration = 0.75;
-    [self.pathNode runAction:changePath];
 }
 
 - (void)didChangeSize:(CGSize)oldSize
@@ -97,9 +96,11 @@
         [self createReticle];
     }
     if (self.pathNode) {
-        self.path = CGPathCreateMutable();
-        for (PathPoint *point in self.pathPoints) {
-            [self _internalAddPoint:point];
+        [self.pathNode removeAllChildren];
+        NSArray *pathPoints = self.pathPoints;
+        self.pathPoints = [NSMutableArray new];
+        for (Sample *sample in pathPoints) {
+            [self addSample:sample];
         }
     }
 }
@@ -149,6 +150,23 @@
     }
 
     [self addChild:self.reticleNode];
+}
+
+- (void)mouseDown:(NSEvent *)theEvent
+{
+    NSPoint point = [[self view] convertPoint:[theEvent locationInWindow] fromView:nil];
+    SKNode *clickedNode = [self nodeAtPoint:point];
+    NSLog(@"touch %@ converted %@ clickedNode: %@", theEvent, NSStringFromPoint(point), clickedNode);
+}
+
+- (void)mouseUp:(NSEvent *)theEvent
+{
+
+}
+
+- (void)mouseDragged:(NSEvent *)theEvent
+{
+
 }
 
 @end

@@ -8,14 +8,15 @@
 
 #import <SpriteKit/SpriteKit.h>
 
+@class Sample;
 @interface ChartScene : SKScene
 
-@property SKShapeNode *pathNode;
+@property SKNode *pathNode;
 @property BOOL showsReticle;
 @property CGFloat minX, minY, maxX, maxY;
 @property (readonly) CGFloat width, height;
 
-- (void)addPoint:(NSPoint)point;
+- (void)addSample:(Sample *)sample;
 - (void)createReticle;
 
 @end

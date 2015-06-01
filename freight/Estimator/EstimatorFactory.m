@@ -9,10 +9,6 @@
 #import "EstimatorFactory.h"
 #import "MovingAverageEstimator.h"
 
-@implementation Sample
-
-@end
-
 @implementation EstimatorFactory
 
 + (id<Estimator>)estimatorNamed:(NSString *)name

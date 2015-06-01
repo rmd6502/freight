@@ -10,6 +10,7 @@
 
 #import "ChartScene.h"
 #import "Document.h"
+#import "Sample.h"
 #import "ViewController.h"
 
 @interface ViewController ()<SKSceneDelegate>
@@ -178,7 +179,7 @@
         Sample *sample = [[self.estimator path] lastObject];
         if (sample) {
             // TODO: use scene coordinates instead of calculating here
-            [self.chartScene addPoint:CGPointMake(sample.xPos, sample.yPos)];
+            [self.chartScene addSample:sample];
         }
 
         SKShapeNode *newNode = [SKShapeNode shapeNodeWithCircleOfRadius:5.0];
@@ -189,7 +190,7 @@
         [newNode runAction:[SKAction sequence:@[[SKAction scaleBy:1.5 duration:0.25],[SKAction scaleBy:(2.0/3.0) duration:0.25],[SKAction fadeOutWithDuration:1.5],[SKAction removeFromParent]]] completion:^{
             // If we're done we can pause the scene animation, which also stops the clock
             // There will be one child for the projected path
-            if (self.atEndOfData && scene.children.count < 2) {
+            if (self.atEndOfData && scene.children.count < 3) {
                 scene.paused = YES;
             }
         }];
